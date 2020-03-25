@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Gamemode 4 Labs - recall-potion</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <style>
+        /* General */
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/6c6374bad0b0b6d204d8d6dc4a18d820.woff);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/e8acd7d9bf6207f99350ca9f9e23b168.woff);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/3bdef1251a424500c1b3a78dea9b7e57.woff);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/be0060dafb7a0e31d2a1ca17c0708636.woff);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/8e12fb4f14d9c4592eb8ec9f22337b04.woff);
+    font-weight: 700;
+}
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.markdown {
+    white-space: pre-wrap;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.spoiler {
+    border-radius: 3px;
+}
+
+.quote {
+    margin: 0.5em 0;
+    padding-left: 0.6em;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, monospace;
+}
+
+.pre--multiline {
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.mention {
+    font-weight: 500;
+}
+
+.emoji {
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.06em;
+    vertical-align: -0.4em;
+}
+
+.emoji--small {
+    width: 1em;
+    height: 1em;
+}
+
+.emoji--large {
+    width: 2.8em;
+    height: 2.8em;
+}
+
+/* Preamble */
+
+.preamble {
+    display: grid;
+    margin: 0 0.3em 0.6em 0.3em;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
+}
+
+.preamble__guild-icon-container {
+    grid-column: 1;
+}
+
+.preamble__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.preamble__entries-container {
+    grid-column: 2;
+    margin-left: 0.6em;
+}
+
+.preamble__entry {
+    font-size: 1.4em;
+}
+
+.preamble__entry--small {
+    font-size: 1em;
+}
+
+/* Chatlog */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: grid;
+    margin: 0 0.6em;
+    padding: 0.9em 0;
+    border-top: 1px solid;
+    grid-template-columns: auto 1fr;
+}
+
+.chatlog__author-avatar-container {
+    grid-column: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    grid-column: 2;
+    margin-left: 1.2em;
+    min-width: 50%;
+}
+
+.chatlog__author-name {
+    font-weight: 500;
+}
+
+.chatlog__timestamp {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+}
+
+.chatlog__message {
+    padding: 0.1em 0.3em;
+    margin: 0 -0.3em;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}
+
+.chatlog__content {
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+}
+
+.chatlog__attachment-thumbnail {
+    margin-top: 0.3em;
+    max-width: 50%;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__embed {
+    display: flex;
+    margin-top: 0.3em;
+    max-width: 520px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 0.25em;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0.6em;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    display: flex;
+    width: 100%;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    margin-bottom: 0.3em;
+    align-items: center;
+}
+
+.chatlog__embed-author-icon {
+    margin-right: 0.5em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 0.2em;
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 0.6em;
+    font-size: 0.875em;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 1.2em;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-image {
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 0.2em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.chatlog__reactions {
+    display: flex;
+}
+
+.chatlog__reaction {
+    display: flex;
+    align-items: center;
+    margin: 0.35em 0.1em 0.1em 0.1em;
+    padding: 0.2em 0.35em;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-count {
+    min-width: 9px;
+    margin-left: 0.35em;
+    font-size: 0.875em;
+}
+
+.chatlog__bot-tag {
+    position: relative;
+    top: -.2em;
+    margin-left: 0.3em;
+    padding: 0.05em 0.3em;
+    border-radius: 3px;
+    vertical-align: middle;
+    line-height: 1.3;
+    background: #7289da;
+    color: #ffffff;
+    font-size: 0.625em;
+    font-weight: 500;
+}
+
+/* Postamble */
+
+.postamble {
+    margin: 1.4em 0.3em 0.6em 0.3em;
+    padding: 1em;
+    border-top: 1px solid;
+}
+    </style>
+    <style>
+        /* General */
+
+body {
+    background-color: #36393e;
+    color: #dcddde;
+}
+
+a {
+    color: #0096cf;
+}
+
+.spoiler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.quote {
+    border-color: #4f545c;
+}
+
+.pre {
+    background-color: #2f3136 !important;
+}
+
+.pre--multiline {
+    border-color: #282b30 !important;
+    color: #b9bbbe !important;
+}
+
+.mention {
+    color: #7289da;
+}
+
+/* === Preamble === */
+
+.preamble__entry {
+    color: #ffffff;
+}
+
+/* Chatlog */
+
+.chatlog__message-group {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__message--highlighted {
+    background-color: rgba(114, 137, 218, 0.2) !important;
+}
+
+.chatlog__message--pinned {
+    background-color: rgba(249, 168, 37, 0.05);
+}
+
+.chatlog__edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__embed-color-pill--default {
+    background-color: rgba(79, 84, 92, 1);
+}
+
+.chatlog__embed-content-container {
+    background-color: rgba(46, 48, 54, 0.3);
+    border-color: rgba(46, 48, 54, 0.6);
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-footer {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__reaction {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chatlog__reaction-count {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Postamble */
+
+.postamble {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.postamble__entry {
+    color: #ffffff;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/515225138006851624/5af7b7197d6a9d3a56bb758918e62f72.png" alt="Guild icon" />
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Gamemode 4 Labs</div>
+        <div class="preamble__entry">recall-potion</div>
+
+            <div class="preamble__entry preamble__entry--small"></div>
+
+    </div>
+</div>
+
+<div class="chatlog">
+    <div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">09-Dec-18 04:55 AM</span>
+
+            <div class="chatlog__message chatlog__message--pinned" data-message-id="521188151939825685" id="message-521188151939825685">
+                <div class="chatlog__content">
+                    <span class="markdown">Alluet:
+Zauber Cauldrons Update: Potion of Recall
+Main Feature: You would be able to upgrade a Zauber Cauldron to act as a destination for Potions of Recall, which would be brewed in the Zauber Cauldron, and you would be able to drink them to teleport to the destination cauldron. I have some interesting ideas to balance these recipes and can develop this update, however I would like to discuss things with the community.
+Note: I discussed this concept with Bluefire610 and Sparks, and they seemed to like it, however a main concern is that it needs to make sense in ZC, which currently is only used for upgrading potions rather than brewing them.</span>
+
+                        <span class="chatlog__edited-timestamp" title="09-Dec-18 04:59 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/334526144143687691/49c4c42e507c7878763166d27cbf1946.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Denialz#7777" data-user-id="334526144143687691">Denialz</span>
+
+
+        <span class="chatlog__timestamp">12-Dec-18 08:13 AM</span>
+
+            <div class="chatlog__message " data-message-id="522325013098135575" id="message-522325013098135575">
+                <div class="chatlog__content">
+                    <span class="markdown">we could use an invis pot and upgrade it, as it doesnt really have levels and stuff and would seem the closest to teleportation</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="522325070866022400" id="message-522325070866022400">
+                <div class="chatlog__content">
+                    <span class="markdown">but as far as balancing goes, regeneration is the most expensive one</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/287287322360414218/30c9bb6a61e8f6fc040d2aa9add81933.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="kyrkis#7156" data-user-id="287287322360414218">kyrkis</span>
+
+
+        <span class="chatlog__timestamp">12-Dec-18 09:40 AM</span>
+
+            <div class="chatlog__message " data-message-id="522346987438211073" id="message-522346987438211073">
+                <div class="chatlog__content">
+                    <span class="markdown">Good idea</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">12-Dec-18 12:17 PM</span>
+
+            <div class="chatlog__message " data-message-id="522386442152837121" id="message-522386442152837121">
+                <div class="chatlog__content">
+                    <span class="markdown">my proposal mentioned that the zauber cauldron would be upgraded</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="522386510536769546" id="message-522386510536769546">
+                <div class="chatlog__content">
+                    <span class="markdown">would still work as a normal zauber cauldron, but the water itself would be able to handle that sort of teleportation</span>
+
+                        <span class="chatlog__edited-timestamp" title="12-Dec-18 12:17 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="522386618695548929" id="message-522386618695548929">
+                <div class="chatlog__content">
+                    <span class="markdown">what if, rather than a &quot;potion of recall&quot;, it&#39;s something like &quot;shimmering zauber water&quot;</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="522386749314564105" id="message-522386749314564105">
+                <div class="chatlog__content">
+                    <span class="markdown">oh, this could actually be the start of pure zauber potions</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="522386832328228871" id="message-522386832328228871">
+                <div class="chatlog__content">
+                    <span class="markdown">different types of zauber water have could different effects</span>
+
+                        <span class="chatlog__edited-timestamp" title="12-Dec-18 12:18 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="522386960136929305" id="message-522386960136929305">
+                <div class="chatlog__content">
+                    <span class="markdown">I would need to discuss this with bluefire</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 02:10 AM</span>
+
+            <div class="chatlog__message " data-message-id="524408143602778123" id="message-524408143602778123">
+                <div class="chatlog__content">
+                    <span class="markdown">Bluefire610:</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524408148333821972" id="message-524408148333821972">
+                <div class="chatlog__content">
+                    <span class="markdown">I had a different idea for how to do the recall potions earlier:
+When one drops too many items into a cauldron, the cauldron summons &quot;possessed items&quot;. These are &quot;bound to the cauldron&quot; and could be captured by adding bottles to the receipe (any recipe), yielding bottles with possessed items inside.
+These can then be used in a recipe similar to the flower recipe, but with randomised amount of chorus fruit and popped chorus fruit instead of flowers; doing this will yield a potion of recall</span>
+
+                        <span class="chatlog__edited-timestamp" title="18-Dec-18 02:10 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524408369839210496" id="message-524408369839210496">
+                <div class="chatlog__content">
+                    <span class="markdown">--
+I really like this concept but I have no clue how ZC works, need to learn how.</span>
+
+                        <span class="chatlog__edited-timestamp" title="18-Dec-18 02:12 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/231989933907247105/a3e74dae986af632f79d42e078a70577.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="BluePsychoRanger#5160" data-user-id="231989933907247105">BluePsychoRanger</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 02:11 AM</span>
+
+            <div class="chatlog__message " data-message-id="524408404286898186" id="message-524408404286898186">
+                <div class="chatlog__content">
+                    <span class="markdown">same</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 02:17 AM</span>
+
+            <div class="chatlog__message " data-message-id="524409748641284096" id="message-524409748641284096">
+                <div class="chatlog__content">
+                    <span class="markdown">Things that need to be worked out:
+ - What type of items? Any items that could be valid for a ZC recipe, or a specific category of items? Until 1.14, the answer can&#39;t be &quot;any item in Minecraft.&quot;
+ - What to do if you put the wrong number of chorus fruit / popped chorus fruit? Maybe if you have less than needed, do nothing, if you have more, react badly?</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524409920477593602" id="message-524409920477593602">
+                <div class="chatlog__content">
+                    <span class="markdown">oh and another one I thought of earlier:
+ - What to do when a player drinks a Potion of Recall and it turns out the Zauber Cauldron is not actually there anymore?</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524410067366182922" id="message-524410067366182922">
+                <div class="chatlog__content">
+                    <span class="markdown"><span class="mention" title="Bloo#0764">@Bloo</span> any thoughts?</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/158632505786761216/93418bb219334caaa6424e47f3ec4e7c.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Bloo#0764" data-user-id="158632505786761216">Bloo</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 08:57 AM</span>
+
+            <div class="chatlog__message " data-message-id="524510454479978496" id="message-524510454479978496">
+                <div class="chatlog__content">
+                    <span class="markdown">I&#39;m already working on this and the vex capturing is already in place and working (as well as those bottles being able to release the vexes if you have them on the ground for too long)</span>
+
+                        <span class="chatlog__edited-timestamp" title="18-Dec-18 09:02 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524511052071829515" id="message-524511052071829515">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;-what happens when the cauldron is not there anymore&quot;
+I was talking to special about this; due to chunk loading checking whether the cauldron is still there is very complicated, so our idea was to teleport the player and when there&#39;s no cauldron present, cause an explosion (aka there&#39;s no receiving end teleporter thing)</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524511539349159956" id="message-524511539349159956">
+                <div class="chatlog__content">
+                    <span class="markdown">I was thinking if you have less than required it&#39;ll produce a potion that will teleport you to a random position near the cauldron. If you have more than required it will summon vexes (usual behavior)</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/158632505786761216/93418bb219334caaa6424e47f3ec4e7c.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Bloo#0764" data-user-id="158632505786761216">Bloo</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 09:17 AM</span>
+
+            <div class="chatlog__message " data-message-id="524515646986518528" id="message-524515646986518528">
+                <div class="chatlog__content">
+                    <span class="markdown"><span class="mention" title="Lue#6464">@Lue</span> I&#39;m on the stream server rn if you want to take a look</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 10:50 AM</span>
+
+            <div class="chatlog__message " data-message-id="524539053010583563" id="message-524539053010583563">
+                <div class="chatlog__content">
+                    <span class="markdown">was asleep unfortunately, but I&#39;m not sure how I feel about it exploding if the cauldron is missing.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524539378211749892" id="message-524539378211749892">
+                <div class="chatlog__content">
+                    <span class="markdown">I agree the teleport should succeed but I don&#39;t think it should be fatal to the player. If it was fatal or severely detrimental, removing the cauldron would only be used for trolling on servers.</span>
+
+                        <span class="chatlog__edited-timestamp" title="18-Dec-18 10:55 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/158632505786761216/93418bb219334caaa6424e47f3ec4e7c.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Bloo#0764" data-user-id="158632505786761216">Bloo</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 12:06 PM</span>
+
+            <div class="chatlog__message " data-message-id="524558098778816512" id="message-524558098778816512">
+                <div class="chatlog__content">
+                    <span class="markdown">It won&#39;t kill the player, the player will survive but the location will be exploded</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524558144551256070" id="message-524558144551256070">
+                <div class="chatlog__content">
+                    <span class="markdown">The player will be given resistance</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 12:32 PM</span>
+
+            <div class="chatlog__message " data-message-id="524564686390165515" id="message-524564686390165515">
+                <div class="chatlog__content">
+                    <span class="markdown">Ah</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/158632505786761216/93418bb219334caaa6424e47f3ec4e7c.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Bloo#0764" data-user-id="158632505786761216">Bloo</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 10:25 PM</span>
+
+            <div class="chatlog__message " data-message-id="524713806765621249" id="message-524713806765621249">
+                <div class="chatlog__content">
+                    <span class="markdown"><span class="mention" title="Lue#6464">@Lue</span> have you thought of a way of detecting AND then teleporting the player upon potion consumption yet?</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 10:29 PM</span>
+
+            <div class="chatlog__message " data-message-id="524714730951147581" id="message-524714730951147581">
+                <div class="chatlog__content">
+                    <span class="markdown">Yes.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524714797573472266" id="message-524714797573472266">
+                <div class="chatlog__content">
+                    <span class="markdown">The least laggy way I could think of is surprisingly binary decoding via advancement predicate.</span>
+
+                        <span class="chatlog__edited-timestamp" title="18-Dec-18 10:29 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524714962317475873" id="message-524714962317475873">
+                <div class="chatlog__content">
+                    <span class="markdown">The reason for this is that entity NBT lookup is really laggy, and you would need to do it for every player every clock cycle to check for the potion in the hand, then copy all its data into a scoreboard</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524715030164275210" id="message-524715030164275210">
+                <div class="chatlog__content">
+                    <span class="markdown">advancement skips NBT lookup and you get the exact potion that is being consumed</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524715059642105866" id="message-524715059642105866">
+                <div class="chatlog__content">
+                    <span class="markdown">unfortunately the potion is deleted before the function reward runs</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/144207211881562112/cc54ae8ce7516e804ee15fcf3c792182.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="razorsharp#1238" data-user-id="144207211881562112">razorsharp</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 10:33 PM</span>
+
+            <div class="chatlog__message " data-message-id="524715736866881591" id="message-524715736866881591">
+                <div class="chatlog__content">
+                    <span class="markdown">binary decoding?</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/158632505786761216/93418bb219334caaa6424e47f3ec4e7c.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Bloo#0764" data-user-id="158632505786761216">Bloo</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 10:42 PM</span>
+
+            <div class="chatlog__message " data-message-id="524718248990736433" id="message-524718248990736433">
+                <div class="chatlog__content">
+                    <span class="markdown">&quot;unfortunately the potion is deleted before the function reward runs&quot; this is the issue I&#39;m thinking of rn</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 10:45 PM</span>
+
+            <div class="chatlog__message " data-message-id="524718777909248030" id="message-524718777909248030">
+                <div class="chatlog__content">
+                    <span class="markdown">well ya that&#39;s why you do binary decoding</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524718988609978373" id="message-524718988609978373">
+                <div class="chatlog__content">
+                    <span class="markdown">store either 0 or 1 for each bit in the coordinates, tally up total bits you&#39;ve read, get coordinates once total number of bits read = total number of bits</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524719105115422721" id="message-524719105115422721">
+                <div class="chatlog__content">
+                    <span class="markdown">via advancement predicate and function reward</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524719308782305290" id="message-524719308782305290">
+                <div class="chatlog__content">
+                    <span class="markdown">I honestly believe that&#39;s more efficient than doing 1-4 player NBT reads for every player every clock tick</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/158632505786761216/93418bb219334caaa6424e47f3ec4e7c.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Bloo#0764" data-user-id="158632505786761216">Bloo</span>
+
+
+        <span class="chatlog__timestamp">18-Dec-18 10:56 PM</span>
+
+            <div class="chatlog__message " data-message-id="524721691838906388" id="message-524721691838906388">
+                <div class="chatlog__content">
+                    <span class="markdown">hm</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="524721705713795082" id="message-524721705713795082">
+                <div class="chatlog__content">
+                    <span class="markdown">I&#39;m not sure</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">23-Dec-18 02:45 PM</span>
+
+            <div class="chatlog__message " data-message-id="526410033160781845" id="message-526410033160781845">
+                <div class="chatlog__content">
+                    <span class="markdown">This is being archived because it turned into the <span class="pre pre--inline">Vexmas</span> Zauber Cauldrons update which is being handled officially.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div>
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 41 message(s)</div>
+</div>
+
+</body>
+</html>
