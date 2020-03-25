@@ -18,6 +18,10 @@ Planned Update
 ---
 This achive is planned ot be updated as seen fit. There is no guarentee that it will be update paste the current date, however an update in 3 to 6 months is the expected changes. This is due to the amount of time it takes to amas a new amount of archive pages.
 
+Credits
+---
+[Misode](github.com/Misode) for GithubAction for Generation github.io page.
+
 License
 ---
 All right reserved.
