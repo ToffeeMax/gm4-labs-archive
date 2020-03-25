@@ -11,7 +11,7 @@ _This is a backup of the Gamemode 4 Labs Archive_
 
 Viewing Files
 ---
-You can view all the files on this pages [github.io](toffeemax.github.io/gm4-labs-backup) page.
+You can view all the files on this pages [github.io](/gm4-labs-backup) page.
 It uses raw HMTL and is janky in files due to how the archive is generated
 
 Planned Update
