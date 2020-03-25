@@ -20,7 +20,7 @@ This achive is planned ot be updated as seen fit. There is no guarentee that it 
 
 Credits
 ---
-[Misode]<github.com/Misode> for GithubAction for Generation github.io page.
+[Misode](https://github.com/Misode) for GithubAction for Generation github.io page.
 
 License
 ---
