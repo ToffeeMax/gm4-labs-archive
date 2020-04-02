@@ -1,0 +1,2552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Gamemode 4 Labs - elder-guardian-summoning</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <style>
+        /* General */
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/6c6374bad0b0b6d204d8d6dc4a18d820.woff);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/e8acd7d9bf6207f99350ca9f9e23b168.woff);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/3bdef1251a424500c1b3a78dea9b7e57.woff);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/be0060dafb7a0e31d2a1ca17c0708636.woff);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/8e12fb4f14d9c4592eb8ec9f22337b04.woff);
+    font-weight: 700;
+}
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.markdown {
+    white-space: pre-wrap;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.spoiler {
+    border-radius: 3px;
+}
+
+.quote {
+    margin: 0.5em 0;
+    padding-left: 0.6em;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, monospace;
+}
+
+.pre--multiline {
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.mention {
+    font-weight: 500;
+}
+
+.emoji {
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.06em;
+    vertical-align: -0.4em;
+}
+
+.emoji--small {
+    width: 1em;
+    height: 1em;
+}
+
+.emoji--large {
+    width: 2.8em;
+    height: 2.8em;
+}
+
+/* Preamble */
+
+.preamble {
+    display: grid;
+    margin: 0 0.3em 0.6em 0.3em;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
+}
+
+.preamble__guild-icon-container {
+    grid-column: 1;
+}
+
+.preamble__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.preamble__entries-container {
+    grid-column: 2;
+    margin-left: 0.6em;
+}
+
+.preamble__entry {
+    font-size: 1.4em;
+}
+
+.preamble__entry--small {
+    font-size: 1em;
+}
+
+/* Chatlog */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: grid;
+    margin: 0 0.6em;
+    padding: 0.9em 0;
+    border-top: 1px solid;
+    grid-template-columns: auto 1fr;
+}
+
+.chatlog__author-avatar-container {
+    grid-column: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    grid-column: 2;
+    margin-left: 1.2em;
+    min-width: 50%;
+}
+
+.chatlog__author-name {
+    font-weight: 500;
+}
+
+.chatlog__timestamp {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+}
+
+.chatlog__message {
+    padding: 0.1em 0.3em;
+    margin: 0 -0.3em;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}
+
+.chatlog__content {
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+}
+
+.chatlog__attachment-thumbnail {
+    margin-top: 0.3em;
+    max-width: 50%;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__embed {
+    display: flex;
+    margin-top: 0.3em;
+    max-width: 520px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 0.25em;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0.6em;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    display: flex;
+    width: 100%;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    margin-bottom: 0.3em;
+    align-items: center;
+}
+
+.chatlog__embed-author-icon {
+    margin-right: 0.5em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 0.2em;
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 0.6em;
+    font-size: 0.875em;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 1.2em;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-image {
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 0.2em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.chatlog__reactions {
+    display: flex;
+}
+
+.chatlog__reaction {
+    display: flex;
+    align-items: center;
+    margin: 0.35em 0.1em 0.1em 0.1em;
+    padding: 0.2em 0.35em;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-count {
+    min-width: 9px;
+    margin-left: 0.35em;
+    font-size: 0.875em;
+}
+
+.chatlog__bot-tag {
+    position: relative;
+    top: -.2em;
+    margin-left: 0.3em;
+    padding: 0.05em 0.3em;
+    border-radius: 3px;
+    vertical-align: middle;
+    line-height: 1.3;
+    background: #7289da;
+    color: #ffffff;
+    font-size: 0.625em;
+    font-weight: 500;
+}
+
+/* Postamble */
+
+.postamble {
+    margin: 1.4em 0.3em 0.6em 0.3em;
+    padding: 1em;
+    border-top: 1px solid;
+}
+    </style>
+    <style>
+        /* General */
+
+body {
+    background-color: #36393e;
+    color: #dcddde;
+}
+
+a {
+    color: #0096cf;
+}
+
+.spoiler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.quote {
+    border-color: #4f545c;
+}
+
+.pre {
+    background-color: #2f3136 !important;
+}
+
+.pre--multiline {
+    border-color: #282b30 !important;
+    color: #b9bbbe !important;
+}
+
+.mention {
+    color: #7289da;
+}
+
+/* === Preamble === */
+
+.preamble__entry {
+    color: #ffffff;
+}
+
+/* Chatlog */
+
+.chatlog__message-group {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__message--highlighted {
+    background-color: rgba(114, 137, 218, 0.2) !important;
+}
+
+.chatlog__message--pinned {
+    background-color: rgba(249, 168, 37, 0.05);
+}
+
+.chatlog__edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__embed-color-pill--default {
+    background-color: rgba(79, 84, 92, 1);
+}
+
+.chatlog__embed-content-container {
+    background-color: rgba(46, 48, 54, 0.3);
+    border-color: rgba(46, 48, 54, 0.6);
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-footer {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__reaction {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chatlog__reaction-count {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Postamble */
+
+.postamble {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.postamble__entry {
+    color: #ffffff;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/515225138006851624/5af7b7197d6a9d3a56bb758918e62f72.png" alt="Guild icon" />
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Gamemode 4 Labs</div>
+        <div class="preamble__entry">elder-guardian-summoning</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+    <div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/231989933907247105/a3e74dae986af632f79d42e078a70577.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="BluePsychoRanger#5160" data-user-id="231989933907247105">BluePsychoRanger</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:08 PM</span>
+
+            <div class="chatlog__message chatlog__message--pinned" data-message-id="516706775232282625" id="message-516706775232282625">
+                <div class="chatlog__content">
+                    <span class="markdown">Tomhelduf
+Module: Elder Guardian Summoning
+Main feature: Elder Guardians now drop Hearts of the Sea 20 percent of the time when killed. They can also now be resummoned by throwing 16 Nautilus Shells, 4 prismarine crystals and a fish atop a sea lantern underwater. When summoned, players recieve a lower duration mining fatigue effect and are instantly freed when the Elder Guardian dies. The elder Guardian also has resistance upon spawning like the wither.
+
+Hearts of the Sea and elder guardians are now renewable.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:10 PM</span>
+
+            <div class="chatlog__message " data-message-id="516707398380027913" id="message-516707398380027913">
+                <div class="chatlog__content">
+                    <span class="markdown">Elder guardians are likely to be made by hitting a guardian with lightning</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/151713776687775744/9af64ebb4b771d4c44bd1a89b2bac7e4.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kroppeb#2845" data-user-id="151713776687775744">Kroppeb</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:19 PM</span>
+
+            <div class="chatlog__message " data-message-id="516709667137781767" id="message-516709667137781767">
+                <div class="chatlog__content">
+                    <span class="markdown">How will we detect that though</span>
+
+                        <span class="chatlog__edited-timestamp" title="26-Nov-18 08:19 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/203091600283271169/a_8a88bef6ca4be2f6aff0f697531ecb7b.gif" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="federick#9948" data-user-id="203091600283271169">federick</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:25 PM</span>
+
+            <div class="chatlog__message " data-message-id="516711100117549056" id="message-516711100117549056">
+                <div class="chatlog__content">
+                    <span class="markdown">lightning rods</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:26 PM</span>
+
+            <div class="chatlog__message " data-message-id="516711331009658886" id="message-516711331009658886">
+                <div class="chatlog__content">
+                    <span class="markdown">The wiki doesn&#39;t even know if they are selectable</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/136888326182404097/8db01383ec38e395e79b68e151cc727e.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="ToffeeMax#2500" data-user-id="136888326182404097">ToffeeMax</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:26 PM</span>
+
+            <div class="chatlog__message " data-message-id="516711360533364747" id="message-516711360533364747">
+                <div class="chatlog__content">
+                    <span class="markdown">lol</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516711363972825129" id="message-516711363972825129">
+                <div class="chatlog__content">
+                    <span class="markdown">The wiki</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:28 PM</span>
+
+            <div class="chatlog__message " data-message-id="516711943138967585" id="message-516711943138967585">
+                <div class="chatlog__content">
+                    <span class="markdown">I suppose lightning rods, but that would make this a double-dependant module relying on both custom Crafters and LRds</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/136888326182404097/8db01383ec38e395e79b68e151cc727e.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="ToffeeMax#2500" data-user-id="136888326182404097">ToffeeMax</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:29 PM</span>
+
+            <div class="chatlog__message " data-message-id="516712123251032064" id="message-516712123251032064">
+                <div class="chatlog__content">
+                    <span class="markdown">Ritual of the Guardian Then?</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516712190343118848" id="message-516712190343118848">
+                <div class="chatlog__content">
+                    <span class="markdown">What if, Lightning Rods is not installed, adds its own version, if it is, then does not</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:30 PM</span>
+
+            <div class="chatlog__message " data-message-id="516712305678090256" id="message-516712305678090256">
+                <div class="chatlog__content">
+                    <span class="markdown">I&#39;m personally not a big fan of that</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516712336900358155" id="message-516712336900358155">
+                <div class="chatlog__content">
+                    <span class="markdown">if it <em>can</em> be standalone, it <em>should</em> be standalone</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:30 PM</span>
+
+            <div class="chatlog__message " data-message-id="516712361021669424" id="message-516712361021669424">
+                <div class="chatlog__content">
+                    <span class="markdown">Or add support for both LRds and Channeling tridents? They still seem to be the easiest way to get lightning, and it&#39;s not like it would get struck naturally</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/144600987435401217/edefeaa4ea5e11579096aef94640c13e.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Diamondback88#7793" data-user-id="144600987435401217">Diamondback88</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:37 PM</span>
+
+            <div class="chatlog__message " data-message-id="516714147468279839" id="message-516714147468279839">
+                <div class="chatlog__content">
+                    <span class="markdown">Pinned a message.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/151713776687775744/9af64ebb4b771d4c44bd1a89b2bac7e4.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kroppeb#2845" data-user-id="151713776687775744">Kroppeb</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:42 PM</span>
+
+            <div class="chatlog__message " data-message-id="516715461782798366" id="message-516715461782798366">
+                <div class="chatlog__content">
+                    <span class="markdown">lightning CANNOT be selected</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516715495467253771" id="message-516715495467253771">
+                <div class="chatlog__content">
+                    <span class="markdown">unless they changed that in a newer version</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:43 PM</span>
+
+            <div class="chatlog__message " data-message-id="516715591151910912" id="message-516715591151910912">
+                <div class="chatlog__content">
+                    <span class="markdown">This is what the wiki doesn&#39;t specify</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/151713776687775744/9af64ebb4b771d4c44bd1a89b2bac7e4.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kroppeb#2845" data-user-id="151713776687775744">Kroppeb</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:44 PM</span>
+
+            <div class="chatlog__message " data-message-id="516715807460556822" id="message-516715807460556822">
+                <div class="chatlog__content">
+                    <span class="markdown">I seem to remember that we wanted to implement the chorus -&gt; shulker conversion with lightning, but unless you place a creeper, lightning isn&#39;t possible to detect.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516715868017917967" id="message-516715868017917967">
+                <div class="chatlog__content">
+                    <span class="markdown">This is why it&#39;s in lightning rods</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:45 PM</span>
+
+            <div class="chatlog__message " data-message-id="516716073731620876" id="message-516716073731620876">
+                <div class="chatlog__content">
+                    <span class="markdown">That&#39;s more interesting</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/151713776687775744/9af64ebb4b771d4c44bd1a89b2bac7e4.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kroppeb#2845" data-user-id="151713776687775744">Kroppeb</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:46 PM</span>
+
+            <div class="chatlog__message " data-message-id="516716313645809665" id="message-516716313645809665">
+                <div class="chatlog__content">
+                    <span class="markdown">You could use a creeper if it&#39;s gonna be more a kind of ritual</span>
+
+                        <span class="chatlog__edited-timestamp" title="26-Nov-18 08:46 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:48 PM</span>
+
+            <div class="chatlog__message " data-message-id="516716779196776468" id="message-516716779196776468">
+                <div class="chatlog__content">
+                    <span class="markdown">If it were instead a part of lightning rods rather than a standalone?</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/135698259673874433/994f40e3380eb2d7ea0a3b78f20165c9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Sparks#0008" data-user-id="135698259673874433">Sparks</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:51 PM</span>
+
+            <div class="chatlog__message " data-message-id="516717610642178058" id="message-516717610642178058">
+                <div class="chatlog__content">
+                    <span class="markdown">Not a massive fan of the &quot;pile of items&quot; style of crafting/activating things. I think it would be alright if the sea lantern ate each item one at at time and stored what it had eaten (dropping those items if broken or if time runs out for the ritual).</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516718005556871170" id="message-516718005556871170">
+                <div class="chatlog__content">
+                    <span class="markdown">Have you considered making elder guardians renewable by detecting newly spawned (generated) guardians to locate a fresh temple then finding the treasure room and allowing elder guardians to spawn unless the treasure room is raided? This would couple well with an idea The8BitMonkey had ages ago for using new guardians to change the gold in the treasure room for a random selection of other precious blocks.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:56 PM</span>
+
+            <div class="chatlog__message " data-message-id="516718837622636545" id="message-516718837622636545">
+                <div class="chatlog__content">
+                    <span class="markdown">That would work</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516718911744376832" id="message-516718911744376832">
+                <div class="chatlog__content">
+                    <span class="markdown">I hadn&#39;t considered that they spawned in the same rooms each time</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/151713776687775744/9af64ebb4b771d4c44bd1a89b2bac7e4.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Kroppeb#2845" data-user-id="151713776687775744">Kroppeb</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:57 PM</span>
+
+            <div class="chatlog__message " data-message-id="516719136198623243" id="message-516719136198623243">
+                <div class="chatlog__content">
+                    <span class="markdown">How would they find the room though</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 08:57 PM</span>
+
+            <div class="chatlog__message " data-message-id="516719242972889098" id="message-516719242972889098">
+                <div class="chatlog__content">
+                    <span class="markdown">Temples are centred around a 4*4 of chunks</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/135698259673874433/994f40e3380eb2d7ea0a3b78f20165c9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Sparks#0008" data-user-id="135698259673874433">Sparks</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 09:01 PM</span>
+
+            <div class="chatlog__message " data-message-id="516720051697745960" id="message-516720051697745960">
+                <div class="chatlog__content">
+                    <span class="markdown">They don&#39;t spawn in the room but you should be able to test for gold blocks around the guardian.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516720145482383361" id="message-516720145482383361">
+                <div class="chatlog__content">
+                    <span class="markdown">Monkey&#39;s original module just did a huge fill/replace but that won&#39;t work for placing an entity.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516720377473400835" id="message-516720377473400835">
+                <div class="chatlog__content">
+                    <span class="markdown">I know we&#39;ve used fill/replace buttons for this sort of thing before. Replace the gold with buttons, the buttons in air pop off and then those entities can be used to get the exact position of the treasure room and replace the gold plus a marker AEC</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516720636517679104" id="message-516720636517679104">
+                <div class="chatlog__content">
+                    <span class="markdown">Now I&#39;m not gonna say I&#39;ll say no to a guardian summoning ritual. But I think it might be a nicer feel if guardians continue to spawn so long as the heart of the temple remains untouched.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516720664196153371" id="message-516720664196153371">
+                <div class="chatlog__content">
+                    <span class="markdown">I mean they&#39;re called GUARDIANS</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 09:04 PM</span>
+
+            <div class="chatlog__message " data-message-id="516720978026561547" id="message-516720978026561547">
+                <div class="chatlog__content">
+                    <span class="markdown">So the gold gets removed &gt; the elders stop spawning?</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/135698259673874433/994f40e3380eb2d7ea0a3b78f20165c9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Sparks#0008" data-user-id="135698259673874433">Sparks</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 09:06 PM</span>
+
+            <div class="chatlog__message " data-message-id="516721467660959754" id="message-516721467660959754">
+                <div class="chatlog__content">
+                    <span class="markdown">Yup</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:43 PM</span>
+
+            <div class="chatlog__message " data-message-id="516745798298632222" id="message-516745798298632222">
+                <div class="chatlog__content">
+                    <span class="markdown">The gold room seems to generate randomly in each monument</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516745858344026131" id="message-516745858344026131">
+                <div class="chatlog__content">
+                    <span class="markdown">I don&#39;t think it could be used as a point of reference</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/203091600283271169/a_8a88bef6ca4be2f6aff0f697531ecb7b.gif" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="federick#9948" data-user-id="203091600283271169">federick</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:44 PM</span>
+
+            <div class="chatlog__message " data-message-id="516746058395811852" id="message-516746058395811852">
+                <div class="chatlog__content">
+                    <span class="markdown">Gold room is the thing always in the same place</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:44 PM</span>
+
+            <div class="chatlog__message " data-message-id="516746201903661066" id="message-516746201903661066">
+                <div class="chatlog__content">
+                    <span class="markdown">I don&#39;t think so</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/203091600283271169/a_8a88bef6ca4be2f6aff0f697531ecb7b.gif" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="federick#9948" data-user-id="203091600283271169">federick</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:45 PM</span>
+
+            <div class="chatlog__message " data-message-id="516746338160082964" id="message-516746338160082964">
+                <div class="chatlog__content">
+                    <span class="markdown">He means the 2x2 formation</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:47 PM</span>
+
+            <div class="chatlog__message " data-message-id="516746829757546509" id="message-516746829757546509">
+                <div class="chatlog__content">
+                    <span class="markdown">The gold cube?</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516746922632151084" id="message-516746922632151084">
+                <div class="chatlog__content">
+                    <span class="markdown"></span>
+
+                </div>
+
+                <div class="chatlog__attachment">
+                    <a href="https://cdn.discordapp.com/attachments/516697044887273478/516746921436512309/2018-11-26_22.46.05.png">
+                        
+                            <img class="chatlog__attachment-thumbnail" src="https://cdn.discordapp.com/attachments/516697044887273478/516746921436512309/2018-11-26_22.46.05.png" alt="Attachment" />
+                    </a>
+                </div>
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516746922870964224" id="message-516746922870964224">
+                <div class="chatlog__content">
+                    <span class="markdown"></span>
+
+                </div>
+
+                <div class="chatlog__attachment">
+                    <a href="https://cdn.discordapp.com/attachments/516697044887273478/516746921843490841/2018-11-26_22.47.07.png">
+                        
+                            <img class="chatlog__attachment-thumbnail" src="https://cdn.discordapp.com/attachments/516697044887273478/516746921843490841/2018-11-26_22.47.07.png" alt="Attachment" />
+                    </a>
+                </div>
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516747018685906949" id="message-516747018685906949">
+                <div class="chatlog__content">
+                    <span class="markdown">Each pillar represents the corner of the gold formation</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516747164022734848" id="message-516747164022734848">
+                <div class="chatlog__content">
+                    <span class="markdown">Both monuments are facing the same way, posx</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516747907085631491" id="message-516747907085631491">
+                <div class="chatlog__content">
+                    <span class="markdown">Probably more easily useable would be the top room elder guardian</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516748028527378434" id="message-516748028527378434">
+                <div class="chatlog__content">
+                    <span class="markdown">It&#39;s already an entity and spawns close to the coordinate centre of the monument</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/219544138951950336/a_3c449f16180493e81468bca5e3841328.gif" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Supersette#7777" data-user-id="219544138951950336">Supersette</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:52 PM</span>
+
+            <div class="chatlog__message " data-message-id="516748064401260547" id="message-516748064401260547">
+                <div class="chatlog__content">
+                    <span class="markdown">or is it</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:52 PM</span>
+
+            <div class="chatlog__message " data-message-id="516748150564716544" id="message-516748150564716544">
+                <div class="chatlog__content">
+                    <span class="markdown">(that being the most positivex/z block in the 2*2 formation on top of the monument</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/231989933907247105/a3e74dae986af632f79d42e078a70577.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="BluePsychoRanger#5160" data-user-id="231989933907247105">BluePsychoRanger</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:56 PM</span>
+
+            <div class="chatlog__message " data-message-id="516749236172226570" id="message-516749236172226570">
+                <div class="chatlog__content">
+                    <span class="markdown">Execute relative to the guardian to replace gold blocks with command blocks to detect the gold heart. Then tag all the elder guardians in a large radius to prevent it from checking again.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:57 PM</span>
+
+            <div class="chatlog__message " data-message-id="516749249933869078" id="message-516749249933869078">
+                <div class="chatlog__content">
+                    <span class="markdown"><a href="https://i.imgur.com/w8tUnc0.png">https://i.imgur.com/w8tUnc0.png</a></span>
+
+                </div>
+
+
+            <div class="chatlog__embed">
+                <div class="chatlog__embed-color-pill chatlog__embed-color-pill--default"></div>
+                <div class="chatlog__embed-content-container">
+                    <div class="chatlog__embed-content">
+                        <div class="chatlog__embed-text">
+
+
+
+                        </div>
+
+                        <div class="chatlog__embed-thumbnail-container">
+                            <a class="chatlog__embed-thumbnail-link" href="https://i.imgur.com/w8tUnc0.png">
+                                <img class="chatlog__embed-thumbnail" src="https://i.imgur.com/w8tUnc0.png" alt="Thumbnail" />
+                            </a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            </div>
+            <div class="chatlog__message " data-message-id="516749333442330666" id="message-516749333442330666">
+                <div class="chatlog__content">
+                    <span class="markdown">This is the location of the sea lanterns at the top of the farm</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516749394024988682" id="message-516749394024988682">
+                <div class="chatlog__content">
+                    <span class="markdown">always y=59</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:57 PM</span>
+
+            <div class="chatlog__message " data-message-id="516749419715231766" id="message-516749419715231766">
+                <div class="chatlog__content">
+                    <span class="markdown">what is that font</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:57 PM</span>
+
+            <div class="chatlog__message " data-message-id="516749481312518175" id="message-516749481312518175">
+                <div class="chatlog__content">
+                    <span class="markdown">A custom one for a map I was working on</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516749541966479360" id="message-516749541966479360">
+                <div class="chatlog__content">
+                    <span class="markdown">It&#39;s badly compressed and has a lot of errors <img class="emoji " alt="😦" title="😦" src="https://twemoji.maxcdn.com/2/72x72/1f626.png" /></span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:58 PM</span>
+
+            <div class="chatlog__message " data-message-id="516749574992429067" id="message-516749574992429067">
+                <div class="chatlog__content">
+                    <span class="markdown">ah ok</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:58 PM</span>
+
+            <div class="chatlog__message " data-message-id="516749637969903616" id="message-516749637969903616">
+                <div class="chatlog__content">
+                    <span class="markdown">see C for example</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:59 PM</span>
+
+            <div class="chatlog__message " data-message-id="516749809541972005" id="message-516749809541972005">
+                <div class="chatlog__content">
+                    <span class="markdown"><img class="emoji emoji--large" alt="thinkplode" title="thinkplode" src="https://cdn.discordapp.com/emojis/459824645013766147.png" /></span>
+
+                </div>
+
+                <div class="chatlog__attachment">
+                    <a href="https://cdn.discordapp.com/attachments/516697044887273478/516749809541972002/unknown.png">
+                        
+                            <img class="chatlog__attachment-thumbnail" src="https://cdn.discordapp.com/attachments/516697044887273478/516749809541972002/unknown.png" alt="Attachment" />
+                    </a>
+                </div>
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">26-Nov-18 10:59 PM</span>
+
+            <div class="chatlog__message " data-message-id="516749977838682122" id="message-516749977838682122">
+                <div class="chatlog__content">
+                    <span class="markdown">Should look default as it fits the pattern</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516749998046576649" id="message-516749998046576649">
+                <div class="chatlog__content">
+                    <span class="markdown">But it&#39;s thiccer</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516750172475097115" id="message-516750172475097115">
+                <div class="chatlog__content">
+                    <span class="markdown"><a href="https://i.imgur.com/14SMyHS.png">https://i.imgur.com/14SMyHS.png</a></span>
+
+                </div>
+
+
+            <div class="chatlog__embed">
+                <div class="chatlog__embed-color-pill chatlog__embed-color-pill--default"></div>
+                <div class="chatlog__embed-content-container">
+                    <div class="chatlog__embed-content">
+                        <div class="chatlog__embed-text">
+
+
+
+                        </div>
+
+                        <div class="chatlog__embed-thumbnail-container">
+                            <a class="chatlog__embed-thumbnail-link" href="https://i.imgur.com/14SMyHS.png">
+                                <img class="chatlog__embed-thumbnail" src="https://i.imgur.com/14SMyHS.png" alt="Thumbnail" />
+                            </a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+            </div>
+            <div class="chatlog__message " data-message-id="516750544564387860" id="message-516750544564387860">
+                <div class="chatlog__content">
+                    <span class="markdown">Oh man</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516750614168993813" id="message-516750614168993813">
+                <div class="chatlog__content">
+                    <span class="markdown">The centre block of a guardian temple is always divisible by 16</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516750662973784084" id="message-516750662973784084">
+                <div class="chatlog__content">
+                    <span class="markdown">Because it&#39;s chunk aligned</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516750703155478538" id="message-516750703155478538">
+                <div class="chatlog__content">
+                    <span class="markdown">thanks coppper</span>
+
+                </div>
+
+
+
+                <div class="chatlog__reactions">
+                        <div class="chatlog__reaction">
+                            <img class="emoji emoji--small" alt="👌" title="👌" src="https://twemoji.maxcdn.com/2/72x72/1f44c.png" />
+                            <span class="chatlog__reaction-count">1</span>
+                        </div>
+                </div>
+            </div>
+            <div class="chatlog__message " data-message-id="516751798934175754" id="message-516751798934175754">
+                <div class="chatlog__content">
+                    <span class="markdown">So by getting the PosX and PosZ values from all elder guardians in a certain Y range</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516751983827353601" id="message-516751983827353601">
+                <div class="chatlog__content">
+                    <span class="markdown">(assuming the module is run as the world is generated by a player, or beforehand, and not after the player has found this monument)</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516752351424675842" id="message-516752351424675842">
+                <div class="chatlog__content">
+                    <span class="markdown">Find the nearest value divisible by 16 for both values and use this as the monument centre</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516752587056480277" id="message-516752587056480277">
+                <div class="chatlog__content">
+                    <span class="markdown">That would be 100% accurate as this never moves and this could be used for all sorts</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516752697945358337" id="message-516752697945358337">
+                <div class="chatlog__content">
+                    <span class="markdown">And would be a fair bit more efficient than going for the gold blocks, and it wouldn&#39;t ever touch the monument</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516753073264132105" id="message-516753073264132105">
+                <div class="chatlog__content">
+                    <span class="markdown">Only problem is, monuments rotate</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516754588876144641" id="message-516754588876144641">
+                <div class="chatlog__content">
+                    <span class="markdown">So to find the spawning spaces of each of the elder guardians in a monument, you&#39;d need the centre, the rotation of the monument and nothing else</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516754843965325341" id="message-516754843965325341">
+                <div class="chatlog__content">
+                    <span class="markdown">Gold room would be easier to find given these, it would be way better than fill replace over the whole monument</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516756059159920640" id="message-516756059159920640">
+                <div class="chatlog__content">
+                    <span class="markdown">This top layer of pris is consistent all the way round...  apart from the front, so the rotation can be found</span>
+
+                </div>
+
+                <div class="chatlog__attachment">
+                    <a href="https://cdn.discordapp.com/attachments/516697044887273478/516756058329579520/2018-11-26_23.22.38.png">
+                        
+                            <img class="chatlog__attachment-thumbnail" src="https://cdn.discordapp.com/attachments/516697044887273478/516756058329579520/2018-11-26_23.22.38.png" alt="Attachment" />
+                    </a>
+                </div>
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/135698259673874433/994f40e3380eb2d7ea0a3b78f20165c9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Sparks#0008" data-user-id="135698259673874433">Sparks</span>
+
+
+        <span class="chatlog__timestamp">27-Nov-18 01:21 AM</span>
+
+            <div class="chatlog__message " data-message-id="516785664340131860" id="message-516785664340131860">
+                <div class="chatlog__content">
+                    <span class="markdown">That&#39;s some really cool detectoring there</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="516785705721135105" id="message-516785705721135105">
+                <div class="chatlog__content">
+                    <span class="markdown">I didn&#39;t know the elder guardians always spawned in exactly the same spots either</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">27-Nov-18 11:54 PM</span>
+
+            <div class="chatlog__message " data-message-id="517125998869872662" id="message-517125998869872662">
+                <div class="chatlog__content">
+                    <span class="markdown">Planned Procedure:
+- upon the temple being loaded, Elder Guardians high enough to be in the top chamber are detected
+- their position is taken and the nearest center point for a temple is taken by taking posx %= 16 and posz %= 16 and using these figures to adjust the guardian&#39;s position to the nearest
+- a marker is placed here and the marker checks the four directions around it for the roof prismarine. Based on the test that comes back false, the marker is given a direction score.
+- the marker is used to place two relative markers in the wings of the monuments to artificially spawn the elder guardians
+- the check for gold blocks is performed using the button method (over a smaller area and not reliant on guardians, so it should be a lot quicker) and an entity is placed in the greatest posx posz posy block of gold in the chamber
+ - [this marker is also used to make the new passive beacon noise to indicate the farm is running]
+- gold is replaced
+
+All important parts of the monument are marked, the overall bounding box can be found, allowing for special effects or generation inside the monument zone.
+
+The system could also self destruct when the heart gets removed, or remain for some reason, if  any features could be thought of that would enhance the momunent zone in some way.</span>
+
+                </div>
+
+
+
+                <div class="chatlog__reactions">
+                        <div class="chatlog__reaction">
+                            <img class="emoji emoji--small" alt="👌" title="👌" src="https://twemoji.maxcdn.com/2/72x72/1f44c.png" />
+                            <span class="chatlog__reaction-count">1</span>
+                        </div>
+                </div>
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:01 AM</span>
+
+            <div class="chatlog__message " data-message-id="517127778508734484" id="message-517127778508734484">
+                <div class="chatlog__content">
+                    <span class="markdown">so this is essentially a respawning Elder system?</span>
+
+                        <span class="chatlog__edited-timestamp" title="28-Nov-18 12:01 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:01 AM</span>
+
+            <div class="chatlog__message " data-message-id="517127820711821323" id="message-517127820711821323">
+                <div class="chatlog__content">
+                    <span class="markdown">Yes</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517127905663516692" id="message-517127905663516692">
+                <div class="chatlog__content">
+                    <span class="markdown">They respawn periodically in the monuments as long as the gold is still there</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:02 AM</span>
+
+            <div class="chatlog__message " data-message-id="517127993202835456" id="message-517127993202835456">
+                <div class="chatlog__content">
+                    <span class="markdown">the process you describe sounds like something that belongs in Orbis. would <span class="mention" title="Sparks#0008">@Sparks</span> consider such an addition?</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:02 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128066443771915" id="message-517128066443771915">
+                <div class="chatlog__content">
+                    <span class="markdown">The base monument finder would fit</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/231989933907247105/a3e74dae986af632f79d42e078a70577.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="BluePsychoRanger#5160" data-user-id="231989933907247105">BluePsychoRanger</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:02 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128089176768512" id="message-517128089176768512">
+                <div class="chatlog__content">
+                    <span class="markdown">I don&#39;t think Orbis would need to be required</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:02 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128114195922945" id="message-517128114195922945">
+                <div class="chatlog__content">
+                    <span class="markdown">Respawing elder guardians could be an addon</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517128136178270228" id="message-517128136178270228">
+                <div class="chatlog__content">
+                    <span class="markdown">Or the whole thing standalone</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:02 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128156000288770" id="message-517128156000288770">
+                <div class="chatlog__content">
+                    <span class="markdown">orbis isn&#39;t required but it would be good to do the monument detection at the same time as orbis.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517128173868285962" id="message-517128173868285962">
+                <div class="chatlog__content">
+                    <span class="markdown">that way it can use the bedrock layer to mark it as processed / unprocessed</span>
+
+                        <span class="chatlog__edited-timestamp" title="28-Nov-18 12:02 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/231989933907247105/a3e74dae986af632f79d42e078a70577.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="BluePsychoRanger#5160" data-user-id="231989933907247105">BluePsychoRanger</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:02 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128226691088384" id="message-517128226691088384">
+                <div class="chatlog__content">
+                    <span class="markdown">hmm that&#39;s true</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:03 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128418681159702" id="message-517128418681159702">
+                <div class="chatlog__content">
+                    <span class="markdown">It shouldn&#39;t be too laggy having it run in game</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/135698259673874433/994f40e3380eb2d7ea0a3b78f20165c9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Sparks#0008" data-user-id="135698259673874433">Sparks</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:03 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128431251488773" id="message-517128431251488773">
+                <div class="chatlog__content">
+                    <span class="markdown">Orbis scans chunks</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:04 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128493683834881" id="message-517128493683834881">
+                <div class="chatlog__content">
+                    <span class="markdown">orbis could find the top elder.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517128510180163587" id="message-517128510180163587">
+                <div class="chatlog__content">
+                    <span class="markdown">and do this process</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/135698259673874433/994f40e3380eb2d7ea0a3b78f20165c9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Sparks#0008" data-user-id="135698259673874433">Sparks</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:04 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128515024584724" id="message-517128515024584724">
+                <div class="chatlog__content">
+                    <span class="markdown">It&#39;s gonna be more efficient to use the rotation detection and guardians to work out where the gold is</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517128571240710150" id="message-517128571240710150">
+                <div class="chatlog__content">
+                    <span class="markdown">I don&#39;t think this needs Orbis to work at all</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:04 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128641587576834" id="message-517128641587576834">
+                <div class="chatlog__content">
+                    <span class="markdown">it doesn&#39;t. it&#39;s still something that should necessarily be done at the same time</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517128740149395463" id="message-517128740149395463">
+                <div class="chatlog__content">
+                    <span class="markdown">and rely on orbis bedrock layer to determine if it&#39;s a player-created fake monument</span>
+
+                        <span class="chatlog__edited-timestamp" title="28-Nov-18 12:05 AM">(edited)</span>
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/135698259673874433/994f40e3380eb2d7ea0a3b78f20165c9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Sparks#0008" data-user-id="135698259673874433">Sparks</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:05 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128827210825728" id="message-517128827210825728">
+                <div class="chatlog__content">
+                    <span class="markdown">Well no. We tag elder guardians as soon as they spawn</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:05 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128827650965504" id="message-517128827650965504">
+                <div class="chatlog__content">
+                    <span class="markdown">Fake monuments should be pretty tough</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517128855786487829" id="message-517128855786487829">
+                <div class="chatlog__content">
+                    <span class="markdown">^</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/135698259673874433/994f40e3380eb2d7ea0a3b78f20165c9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Sparks#0008" data-user-id="135698259673874433">Sparks</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:05 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128866347614209" id="message-517128866347614209">
+                <div class="chatlog__content">
+                    <span class="markdown">so the check is only done when they first load</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/231989933907247105/a3e74dae986af632f79d42e078a70577.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="BluePsychoRanger#5160" data-user-id="231989933907247105">BluePsychoRanger</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:05 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128917619048498" id="message-517128917619048498">
+                <div class="chatlog__content">
+                    <span class="markdown">^</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/135698259673874433/994f40e3380eb2d7ea0a3b78f20165c9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Sparks#0008" data-user-id="135698259673874433">Sparks</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:05 AM</span>
+
+            <div class="chatlog__message " data-message-id="517128962129002497" id="message-517128962129002497">
+                <div class="chatlog__content">
+                    <span class="markdown">It shouldn&#39;t be possible to create a fake monument unless you manage to move an elder guardian without actually loading it</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:06 AM</span>
+
+            <div class="chatlog__message " data-message-id="517129006202617879" id="message-517129006202617879">
+                <div class="chatlog__content">
+                    <span class="markdown">Or summon it somehow</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:06 AM</span>
+
+            <div class="chatlog__message " data-message-id="517129099680940032" id="message-517129099680940032">
+                <div class="chatlog__content">
+                    <span class="markdown">fair enough. this is still something that is being done at the same time of orbis. it&#39;s making the same assumption as orbis, mainly that these chunks are brand new.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517129171902922772" id="message-517129171902922772">
+                <div class="chatlog__content">
+                    <span class="markdown">that&#39;s why I would expect it to be part of orbis, or at least an expansion</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517129238797746178" id="message-517129238797746178">
+                <div class="chatlog__content">
+                    <span class="markdown">and also use bedrock layer cuz that&#39;s what orbis uses, not tags on entities</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/135698259673874433/994f40e3380eb2d7ea0a3b78f20165c9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Sparks#0008" data-user-id="135698259673874433">Sparks</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:07 AM</span>
+
+            <div class="chatlog__message " data-message-id="517129291495112704" id="message-517129291495112704">
+                <div class="chatlog__content">
+                    <span class="markdown">Orbis will get to the chunk after the guardian has existed for a while and might have moved.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:07 AM</span>
+
+            <div class="chatlog__message " data-message-id="517129358134214689" id="message-517129358134214689">
+                <div class="chatlog__content">
+                    <span class="markdown">You would need at least 1 marker for this to work</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/135698259673874433/994f40e3380eb2d7ea0a3b78f20165c9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Sparks#0008" data-user-id="135698259673874433">Sparks</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:07 AM</span>
+
+            <div class="chatlog__message " data-message-id="517129366530949120" id="message-517129366530949120">
+                <div class="chatlog__content">
+                    <span class="markdown">Which means now orbis needs to check every single chunk (or ocean chunk) for gold</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517129393999708161" id="message-517129393999708161">
+                <div class="chatlog__content">
+                    <span class="markdown">Instead of just checking for elder guardians.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:07 AM</span>
+
+            <div class="chatlog__message " data-message-id="517129424202629140" id="message-517129424202629140">
+                <div class="chatlog__content">
+                    <span class="markdown">oh. I see what you&#39;re saying</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/219544138951950336/a_3c449f16180493e81468bca5e3841328.gif" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Supersette#7777" data-user-id="219544138951950336">Supersette</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:07 AM</span>
+
+            <div class="chatlog__message " data-message-id="517129469618683904" id="message-517129469618683904">
+                <div class="chatlog__content">
+                    <span class="markdown">what’s orbis</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:07 AM</span>
+
+            <div class="chatlog__message " data-message-id="517129491118817300" id="message-517129491118817300">
+                <div class="chatlog__content">
+                    <span class="markdown">The top elder shouldn&#39;t move out of its chamber within a tick of being loaded, or at all</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517129523049922563" id="message-517129523049922563">
+                <div class="chatlog__content">
+                    <span class="markdown">Custom terrain module supersette</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:08 AM</span>
+
+            <div class="chatlog__message " data-message-id="517129535859195925" id="message-517129535859195925">
+                <div class="chatlog__content">
+                    <span class="markdown">orbis alters the terrain of the world</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517129564535783424" id="message-517129564535783424">
+                <div class="chatlog__content">
+                    <span class="markdown">it&#39;s what makes deserts have sandstone all the way down on PSV</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517129583125069845" id="message-517129583125069845">
+                <div class="chatlog__content">
+                    <span class="markdown">etc.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:08 AM</span>
+
+            <div class="chatlog__message " data-message-id="517129684887011328" id="message-517129684887011328">
+                <div class="chatlog__content">
+                    <span class="markdown">From a survival player&#39;s perspective, this runs, they approach the monument and load the guardian before it is even moving</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/140557665548894209/3cc0678d7b8fa321fb9c6687e7e86dc9.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Lue#6464" data-user-id="140557665548894209">Lue</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 12:09 AM</span>
+
+            <div class="chatlog__message " data-message-id="517129843729629216" id="message-517129843729629216">
+                <div class="chatlog__content">
+                    <span class="markdown">I see why it&#39;s beneficial for this module to be separate from orbis then.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/342173704157134849/187701502050d328f38b6e8cf1bbc2dd.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Sander#4799" data-user-id="342173704157134849">Sander</span>
+
+
+        <span class="chatlog__timestamp">05-Jul-19 04:53 PM</span>
+
+            <div class="chatlog__message " data-message-id="596730446100824070" id="message-596730446100824070">
+                <div class="chatlog__content">
+                    <span class="markdown">need this module? archived yes/no?</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/231989933907247105/a3e74dae986af632f79d42e078a70577.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="BluePsychoRanger#5160" data-user-id="231989933907247105">BluePsychoRanger</span>
+
+
+        <span class="chatlog__timestamp">05-Jul-19 04:55 PM</span>
+
+            <div class="chatlog__message " data-message-id="596730940219457546" id="message-596730940219457546">
+                <div class="chatlog__content">
+                    <span class="markdown"><span class="mention" title="tomh#3625">@tomh</span> how’s this module going?</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div><div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/147798172893184002/30e7a65288ff81eefef0c66c72eff493.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="tomh#3625" data-user-id="147798172893184002">tomh</span>
+
+
+        <span class="chatlog__timestamp">05-Jul-19 05:05 PM</span>
+
+            <div class="chatlog__message " data-message-id="596733395921534976" id="message-596733395921534976">
+                <div class="chatlog__content">
+                    <span class="markdown">this should probably be archived/deleted, I have no plans to continue work on this module, although the base research established might be useful for future modules</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div>
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 123 message(s)</div>
+</div>
+
+</body>
+</html>

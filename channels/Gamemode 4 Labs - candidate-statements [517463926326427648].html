@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Gamemode 4 Labs - candidate-statements</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+
+    <style>
+        /* General */
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/6c6374bad0b0b6d204d8d6dc4a18d820.woff);
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/e8acd7d9bf6207f99350ca9f9e23b168.woff);
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/3bdef1251a424500c1b3a78dea9b7e57.woff);
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/be0060dafb7a0e31d2a1ca17c0708636.woff);
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: Whitney;
+    src: url(https://discordapp.com/assets/8e12fb4f14d9c4592eb8ec9f22337b04.woff);
+    font-weight: 700;
+}
+
+body {
+    font-family: "Whitney", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+img {
+    object-fit: contain;
+}
+
+.markdown {
+    white-space: pre-wrap;
+    line-height: 1.3;
+    overflow-wrap: break-word;
+}
+
+.spoiler {
+    border-radius: 3px;
+}
+
+.quote {
+    margin: 0.5em 0;
+    padding-left: 0.6em;
+    border-left: 4px solid;
+    border-radius: 3px;
+}
+
+.pre {
+    font-family: "Consolas", "Courier New", Courier, monospace;
+}
+
+.pre--multiline {
+    margin-top: 0.25em;
+    padding: 0.5em;
+    border: 2px solid;
+    border-radius: 5px;
+}
+
+.pre--inline {
+    padding: 2px;
+    border-radius: 3px;
+    font-size: 0.85em;
+}
+
+.mention {
+    font-weight: 500;
+}
+
+.emoji {
+    width: 1.25em;
+    height: 1.25em;
+    margin: 0 0.06em;
+    vertical-align: -0.4em;
+}
+
+.emoji--small {
+    width: 1em;
+    height: 1em;
+}
+
+.emoji--large {
+    width: 2.8em;
+    height: 2.8em;
+}
+
+/* Preamble */
+
+.preamble {
+    display: grid;
+    margin: 0 0.3em 0.6em 0.3em;
+    max-width: 100%;
+    grid-template-columns: auto 1fr;
+}
+
+.preamble__guild-icon-container {
+    grid-column: 1;
+}
+
+.preamble__guild-icon {
+    max-width: 88px;
+    max-height: 88px;
+}
+
+.preamble__entries-container {
+    grid-column: 2;
+    margin-left: 0.6em;
+}
+
+.preamble__entry {
+    font-size: 1.4em;
+}
+
+.preamble__entry--small {
+    font-size: 1em;
+}
+
+/* Chatlog */
+
+.chatlog {
+    max-width: 100%;
+}
+
+.chatlog__message-group {
+    display: grid;
+    margin: 0 0.6em;
+    padding: 0.9em 0;
+    border-top: 1px solid;
+    grid-template-columns: auto 1fr;
+}
+
+.chatlog__author-avatar-container {
+    grid-column: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.chatlog__author-avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+}
+
+.chatlog__messages {
+    grid-column: 2;
+    margin-left: 1.2em;
+    min-width: 50%;
+}
+
+.chatlog__author-name {
+    font-weight: 500;
+}
+
+.chatlog__timestamp {
+    margin-left: 0.3em;
+    font-size: 0.75em;
+}
+
+.chatlog__message {
+    padding: 0.1em 0.3em;
+    margin: 0 -0.3em;
+    background-color: transparent;
+    transition: background-color 1s ease;
+}
+
+.chatlog__content {
+    font-size: 0.95em;
+    word-wrap: break-word;
+}
+
+.chatlog__edited-timestamp {
+    margin-left: 0.15em;
+    font-size: 0.8em;
+}
+
+.chatlog__attachment-thumbnail {
+    margin-top: 0.3em;
+    max-width: 50%;
+    max-height: 500px;
+    border-radius: 3px;
+}
+
+.chatlog__embed {
+    display: flex;
+    margin-top: 0.3em;
+    max-width: 520px;
+}
+
+.chatlog__embed-color-pill {
+    flex-shrink: 0;
+    width: 0.25em;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.chatlog__embed-content-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 0.6em;
+    border: 1px solid;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.chatlog__embed-content {
+    display: flex;
+    width: 100%;
+}
+
+.chatlog__embed-text {
+    flex: 1;
+}
+
+.chatlog__embed-author {
+    display: flex;
+    margin-bottom: 0.3em;
+    align-items: center;
+}
+
+.chatlog__embed-author-icon {
+    margin-right: 0.5em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.chatlog__embed-author-name {
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-title {
+    margin-bottom: 0.2em;
+    font-size: 0.875em;
+    font-weight: 600;
+}
+
+.chatlog__embed-description {
+    font-weight: 500;
+    font-size: 0.85em;
+}
+
+.chatlog__embed-fields {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.chatlog__embed-field {
+    flex: 0;
+    min-width: 100%;
+    max-width: 506px;
+    padding-top: 0.6em;
+    font-size: 0.875em;
+}
+
+.chatlog__embed-field--inline {
+    flex: 1;
+    flex-basis: auto;
+    min-width: 150px;
+}
+
+.chatlog__embed-field-name {
+    margin-bottom: 0.2em;
+    font-weight: 600;
+}
+
+.chatlog__embed-field-value {
+    font-weight: 500;
+}
+
+.chatlog__embed-thumbnail {
+    flex: 0;
+    margin-left: 1.2em;
+    max-width: 80px;
+    max-height: 80px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-image-container {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-image {
+    max-width: 500px;
+    max-height: 400px;
+    border-radius: 3px;
+}
+
+.chatlog__embed-footer {
+    margin-top: 0.6em;
+}
+
+.chatlog__embed-footer-icon {
+    margin-right: 0.2em;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.chatlog__embed-footer-text {
+    font-size: 0.75em;
+    font-weight: 500;
+}
+
+.chatlog__reactions {
+    display: flex;
+}
+
+.chatlog__reaction {
+    display: flex;
+    align-items: center;
+    margin: 0.35em 0.1em 0.1em 0.1em;
+    padding: 0.2em 0.35em;
+    border-radius: 3px;
+}
+
+.chatlog__reaction-count {
+    min-width: 9px;
+    margin-left: 0.35em;
+    font-size: 0.875em;
+}
+
+.chatlog__bot-tag {
+    position: relative;
+    top: -.2em;
+    margin-left: 0.3em;
+    padding: 0.05em 0.3em;
+    border-radius: 3px;
+    vertical-align: middle;
+    line-height: 1.3;
+    background: #7289da;
+    color: #ffffff;
+    font-size: 0.625em;
+    font-weight: 500;
+}
+
+/* Postamble */
+
+.postamble {
+    margin: 1.4em 0.3em 0.6em 0.3em;
+    padding: 1em;
+    border-top: 1px solid;
+}
+    </style>
+    <style>
+        /* General */
+
+body {
+    background-color: #36393e;
+    color: #dcddde;
+}
+
+a {
+    color: #0096cf;
+}
+
+.spoiler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.quote {
+    border-color: #4f545c;
+}
+
+.pre {
+    background-color: #2f3136 !important;
+}
+
+.pre--multiline {
+    border-color: #282b30 !important;
+    color: #b9bbbe !important;
+}
+
+.mention {
+    color: #7289da;
+}
+
+/* === Preamble === */
+
+.preamble__entry {
+    color: #ffffff;
+}
+
+/* Chatlog */
+
+.chatlog__message-group {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.chatlog__author-name {
+    color: #ffffff;
+}
+
+.chatlog__timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__message--highlighted {
+    background-color: rgba(114, 137, 218, 0.2) !important;
+}
+
+.chatlog__message--pinned {
+    background-color: rgba(249, 168, 37, 0.05);
+}
+
+.chatlog__edited-timestamp {
+    color: rgba(255, 255, 255, 0.2);
+}
+
+.chatlog__embed-color-pill--default {
+    background-color: rgba(79, 84, 92, 1);
+}
+
+.chatlog__embed-content-container {
+    background-color: rgba(46, 48, 54, 0.3);
+    border-color: rgba(46, 48, 54, 0.6);
+}
+
+.chatlog__embed-author-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-author-name-link {
+    color: #ffffff;
+}
+
+.chatlog__embed-title {
+    color: #ffffff;
+}
+
+.chatlog__embed-description {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-field-name {
+    color: #ffffff;
+}
+
+.chatlog__embed-field-value {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__embed-footer {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.chatlog__reaction {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.chatlog__reaction-count {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+/* Postamble */
+
+.postamble {
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.postamble__entry {
+    color: #ffffff;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/styles/solarized-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.6/highlight.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.pre--multiline').forEach(block => hljs.highlightBlock(block));
+        });
+    </script>
+
+    <script>
+        function scrollToMessage(event, id) {
+            var element = document.getElementById('message-' + id);
+
+            if (element) {
+                event.preventDefault();
+
+                element.classList.add('chatlog__message--highlighted');
+
+                window.scrollTo({
+                    top: element.getBoundingClientRect().top - document.body.getBoundingClientRect().top - (window.innerHeight / 2),
+                    behavior: 'smooth'
+                });
+
+                window.setTimeout(function() {
+                    element.classList.remove('chatlog__message--highlighted');
+                }, 2000);
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="preamble">
+    <div class="preamble__guild-icon-container">
+        <img class="preamble__guild-icon" src="https://cdn.discordapp.com/icons/515225138006851624/5af7b7197d6a9d3a56bb758918e62f72.png" alt="Guild icon" />
+    </div>
+    <div class="preamble__entries-container">
+        <div class="preamble__entry">Gamemode 4 Labs</div>
+        <div class="preamble__entry">candidate-statements</div>
+
+
+    </div>
+</div>
+
+<div class="chatlog">
+    <div class="chatlog__message-group">
+    <div class="chatlog__author-avatar-container">
+        <img class="chatlog__author-avatar" src="https://cdn.discordapp.com/avatars/144600987435401217/edefeaa4ea5e11579096aef94640c13e.png" alt="Avatar" />
+    </div>
+    <div class="chatlog__messages">
+        <span class="chatlog__author-name" title="Diamondback88#7793" data-user-id="144600987435401217">Diamondback88</span>
+
+
+        <span class="chatlog__timestamp">28-Nov-18 10:24 PM</span>
+
+            <div class="chatlog__message chatlog__message--pinned" data-message-id="517465816145461249" id="message-517465816145461249">
+                <div class="chatlog__content">
+                    <span class="markdown"><strong>Read the statements below, then go to <span class="mention">#announcements</span> to vote for who you think should be a Gamemode 4 Labs Discord server manager!</strong></span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517466056994979850" id="message-517466056994979850">
+                <div class="chatlog__content">
+                    <span class="markdown">⭐ <strong>Chopper2112:</strong>
+I&#39;m experienced with datapacks, and I know the limitations of what can and can&#39;t realistically be done in Minecraft. I&#39;ve played a lot of survival and SMPs, and I think I can pretty well judge whether or not a module or idea would be fit for a survival environment. I also have experience moderating and managing servers as I am in a leadership position of the Vertex Creations mapmaking team, and a staff member on a semi-large Minecraft server (mc.good-gaming.com).</span>
+
+                        <span class="chatlog__edited-timestamp" title="28-Nov-18 10:27 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517466276906532916" id="message-517466276906532916">
+                <div class="chatlog__content">
+                    <span class="markdown">⭐ <strong>akr (World_Bender):</strong>
+I decided to run for Lab Manager because of my experience testing and analysing data packs (and programs in general). I would be able to offer valuable input to facilitate the conception, development, and deployment of Gamemode 4 modules. Something especially important that I want to do is speaking with the creator(s) of interesting (but flawed) concepts and work with them to find acceptable solutions to the problematic portions of these concepts. As a Lab Manager, it would be much more realistic for me to participate in these manners.</span>
+
+                        <span class="chatlog__edited-timestamp" title="28-Nov-18 10:28 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517466498575630356" id="message-517466498575630356">
+                <div class="chatlog__content">
+                    <span class="markdown">⭐ <strong>iGalaxy:</strong>
+I&#39;ve been on Discord for about 2 years so I&#39;m experienced in moderating servers. I really like the creation aspect of Minecraft, so (I think) I&#39;ve got a creative mindset and can help brainstorm ideas  for modules. I will definitely be active on the server as I really want to help shape some Gamemode 4 Modules. While I&#39;m not that experienced with creating datapacks, I can definitely help decide what goes into them. If there&#39;s anything else you&#39;d like to know then just ask me.</span>
+
+                        <span class="chatlog__edited-timestamp" title="28-Nov-18 10:28 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517466617538543617" id="message-517466617538543617">
+                <div class="chatlog__content">
+                    <span class="markdown">⭐ <strong>BluePsychoRanger:</strong>
+Most of you guys should know me. I&#39;m a Gamemode 4 Wiki admin, so I know a lot about the current modules: how they work, which ones were discontinued/retired, and why they were done so. So if I&#39;m a Lab Manager, I&#39;m able to give insight on what the Gamemode 4 admins look for in a module, if there&#39;s a likelihood that they would reject a module, and how to fix a module to better fit the GM4 style. I&#39;m also pretty close to the admins as I&#39;ve helped them a lot (mostly with the wiki), so I&#39;d say that I have at least some influence, complete with a full documentation of everything added by a module. I&#39;m also pretty good with datapacks, if I do say so myself, and I can make a lot of the suggestions written up on this discord server. Lastly, I am able to advertise things pretty well. I believe most of you have come here from my invite, as Diamond&#39;s invite on #server got quickly flooded by other messages, so I guess a lot of you guys know how well my advertisement strategies work.</span>
+
+                        <span class="chatlog__edited-timestamp" title="28-Nov-18 10:28 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517466980765270017" id="message-517466980765270017">
+                <div class="chatlog__content">
+                    <span class="markdown">⭐ <strong>EnderSlime_123:</strong>
+I am pretty good with moderation and such. Banning/muting/kicking hackers or rule breakers. I am a little strict so if someone pisses me off then I will simply ignore it and report it to you or someone else.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517467070057676805" id="message-517467070057676805">
+                <div class="chatlog__content">
+                    <span class="markdown">⭐ <strong>Kroppeb:</strong>
+I have quite a lot of experience working with datapacks. This can help me see what big flaws a project can have and guide people early on. I also learned programming in a competitive way, this means that optimisation is one of the things that is engraved in my brain. This with the fact that I can look through the code of minecraft makes me able to find optimal ways of doing certain things. 
+I&#39;m going to university and with my ability to quickly learn this results in a lot of free time, which I can spend monitoring the discord.</span>
+
+                        <span class="chatlog__edited-timestamp" title="28-Nov-18 10:42 PM">(edited)</span>
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517467565359104022" id="message-517467565359104022">
+                <div class="chatlog__content">
+                    <span class="markdown">⭐ <strong>ToffeeMax:</strong>
+Things I run Currently:
+TradeMode4 - which was/ is a successful project
+
+Things I help run:
+Wiki Admin. 
+T4P
+
+TradeMode4 is a successful project,  involve organisation and chasing people up to do things etc. I have worked the Potato on working on a bot and the process and design and creating it and refining it has been useful.
+I am a moderator on the vanilla server, if you need evidence of &quot;trustworthyness&quot;.
+
+What I could bring to the table:
+Experience working with a large discord and dealing with making a process of change
+Putting together projects (like the Awards Event of PSIV)
+Contact with a good bot developer
+Knowledge of GM4 due to wiki
+I have learnt from the TradeMode4 about taking public opinion seriously- eg with The Trade Mechanism, and it being hated- and Will admit it took time to remove, however I have learnt that move quickly and solve issues as soon as they arise.</span>
+
+                </div>
+
+
+
+            </div>
+            <div class="chatlog__message " data-message-id="517467652655153153" id="message-517467652655153153">
+                <div class="chatlog__content">
+                    <span class="markdown">⭐ <strong>ShadowSlam:</strong>
+If I&#39;m elected as Lab Manager, I can be active and run the server, make sure to get people to work on the datapacks, and review the modules as well. I can offer my opinions on the datapacks as well, and help test and pitch the modules to the GM4 Devs.</span>
+
+                </div>
+
+
+
+            </div>
+    </div>
+</div>
+</div>
+
+<div class="postamble">
+    <div class="postamble__entry">Exported 9 message(s)</div>
+</div>
+
+</body>
+</html>

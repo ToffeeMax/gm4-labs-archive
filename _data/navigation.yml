@@ -1,0 +1,112 @@
+groups:
+  - title: Modules
+    pages:
+      - title: Beacon Cores
+        channel: beacon-cores
+        id: 516003955331956750
+
+      - title: Better Polar Bears
+        channel: better-polar-bears
+        id: 517119903384338442
+
+      - title: Boat Shamir
+        channel: boat-shamir
+        id: 518169173528936449
+
+      - title: Chairs
+        channel: chairs
+        id: 545628220012232735
+
+      - title: Concrete Converter
+        channel: concrete-converter
+        id: 518167583162368030
+
+      - title: Craftable Sponge
+        channel: craftable-sponge
+        id: 516318122417061890
+
+      - title: Crossbow Cartridges
+        channel: crossbow-cartridges
+        id: 633052187253014548
+
+      - title: Damaging Stonecutters
+        channel: damaging-stonecutters
+        id: 573905719686987791
+
+      - title: Elder Guardian Summoning
+        channel: elder-guardian-summoning
+        id: 516697044887273478
+
+      - title: End Fishing
+        channel: end-fishing
+        id: 553400175696019486
+
+      - title: Equestrian Training
+        channel: equestrian-training
+        id: 545628270079639552
+
+      - title: Figurines
+        channel: figurines
+        id: 521187552997146635
+
+      - title: Fish Traps
+        channel: fish-traps
+        id: 516318139391410177
+
+      - title: Master Crafting
+        channel: master-crafting
+        id: 521187749911330816
+
+      - title: Mending Tanks
+        channel: mending-tanks
+        id: 570612286264180738
+
+      - title: Player and Mob Heads
+        channel: player-and-mob-heads
+        id: 516003932473131069
+
+      - title: Prismarine Disassembly
+        channel: prismarine-disassembly
+        id: 523152165791989771
+
+      - title: Recall Potion
+        channel: recall-potion
+        id: 521188131026894858
+
+      - title: Rituals
+        channel: rituals
+        id: 518872151986536472
+
+      - title: Sapling Stuff
+        channel: sapling-stuff
+        id: 516696967540244490
+
+      - title: SCUBA Gear
+        channel: scuba-gear
+        id: 515669535857311774
+
+  - title: Other
+    pages:
+      - title: Candidate Statements
+        channel: candidate-statements
+        id: 517463926326427648
+
+      - title: Module Competition 1
+        channel: competition-week1
+        id: 594241173556822046
+
+      - title: Module Competition 2
+        channel: module-competition
+        id: 612012379554709514
+
+      - title: Module Competition 3
+        channel: modulecontest2-electricboogaloo
+        id: 651152119490936838
+
+      - title: Module Competition 4
+        channel: modulecontest3ineedawee
+        id: 654778808926208030
+
+      - title: Module Competition 5
+        channel: modcomp4-allideasonthefloor
+        id: 665561802158899210
